@@ -1,0 +1,70 @@
+version: "3.9"
+
+services:
+  bookcurator:
+    build: bookcurator/.
+    ports: 
+      - 8008:80
+    depends_on:
+      - mysql
+      - mongodb
+    restart: unless-stopped
+  
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=bookcurator
+      - MYSQL_USER=bookcurator
+      - MYSQL_PASSWORD=bookcurator
+    volumes:
+      - mysqldata:/var/lib/mysql
+    restart: unless-stopped
+    ports:
+      - 6603:3306
+
+  mongodb:
+    image: mongo:5.0
+    environment:
+      - MONGO_INITDB_DATABASE=bookcurator
+      - MONGO_INITDB_ROOT_USERNAME=bookcurator
+      - MONGO_INITDB_ROOT_PASSWORD=bookcurator
+    volumes:
+      - mongodata:/data/db
+      - ./mongo-db-setup.js:/docker-entrypoint-initdb.d/mongo-db-setup.js:ro #this is a stupid thing mongo does where you have to have a script to create the db.
+    restart: unless-stopped
+    ports:
+      - 17027:27017
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - mysql
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=password
+      - PMA_DATABASE=bookcurator
+    ports:
+      - 8001:80
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+  mongo-express:
+    image: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_URL=mongodb://bookcurator:bookcurator@mongodb:27017
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+      - ME_CONFIG_MONGODB_AUTH_USERNAME=bookcurator
+      - ME_CONFIG_MONGODB_AUTH_PASSWORD=bookcurator
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+    ports:
+      - 8081:8081
+
+volumes:
+  mysqldata:
+  mongodata:
