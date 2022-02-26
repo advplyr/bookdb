@@ -5,10 +5,13 @@ var basename = path.basename(module.filename)
 var dbconfig = require('../../dbconfig.json')
 var db = {}
 
+var sequelize
 if (dbconfig.uri) {
-  var sequelize = new Sequelize(dbconfig.uri, dbconfig.options)
+  console.log(`Connecting with uri "${dbconfig.uri}"`)
+  sequelize = new Sequelize(dbconfig.uri, dbconfig.options)
 } else {
-  var sequelize = new Sequelize(dbconfig.database, dbconfig.username, dbconfig.password, dbconfig.options)
+  console.log('Connecting with details', dbconfig)
+  sequelize = new Sequelize(dbconfig.database, dbconfig.username, dbconfig.password, dbconfig.options)
 }
 
 fs

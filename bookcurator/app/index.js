@@ -1,6 +1,6 @@
 const db = require('./models')
 
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
   console.log('DB connection success and synced')
   // TODO: Start express server
 }).catch((error) => {
