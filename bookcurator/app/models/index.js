@@ -6,12 +6,14 @@ var dbconfig = require('../../dbconfig.json')
 var db = {}
 
 var sequelize
-if (dbconfig.uri) {
-  console.log(`Connecting with uri "${dbconfig.uri}"`)
-  sequelize = new Sequelize(dbconfig.uri, dbconfig.options)
+
+var config = dbconfig[process.env.NODE_ENV] || dbconfig.development
+if (config.uri) {
+  console.log(`Connecting with uri "${config.uri}"`)
+  sequelize = new Sequelize(config.uri, config.options)
 } else {
-  console.log('Connecting with details', dbconfig)
-  sequelize = new Sequelize(dbconfig.database, dbconfig.username, dbconfig.password, dbconfig.options)
+  console.log('Connecting with details', config)
+  sequelize = new Sequelize(config.database, config.username, config.password, config.options)
 }
 
 fs

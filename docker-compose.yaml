@@ -3,6 +3,8 @@ version: "3.9"
 services:
   bookcurator:
     build: bookcurator/.
+    environment:
+      - NODE_ENV=docker-dev
     ports: 
       - 8008:80
     depends_on:
