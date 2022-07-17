@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "gen": "prisma generate"
+    "start": "node index"
   },
   "keywords": [],
   "author": "",
