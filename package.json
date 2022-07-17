@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.27.2",
     "express": "^4.18.1",
+    "htmlparser2": "^8.0.1",
     "sequelize": "^6.21.3",
     "sqlite3": "^5.0.9"
   }
