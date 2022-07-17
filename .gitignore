@@ -1,6 +1,7 @@
 node_modules/
 dbconfig.json
 test.js
+dev.db
 .DS_Store
 .env
 prisma/generate/

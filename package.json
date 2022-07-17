@@ -11,7 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^3.10.0",
-    "bson": "^4.6.1"
+    "express": "^4.18.1",
+    "sequelize": "^6.21.3",
+    "sqlite3": "^5.0.9"
   }
 }

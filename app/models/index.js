@@ -2,20 +2,22 @@ var fs = require('fs')
 var path = require('path')
 var { Sequelize, DataTypes } = require('sequelize')
 var basename = path.basename(module.filename)
-var dbconfig = require('../../dbconfig.json')
-var db = {}
 
-var sequelize
-
-var config = dbconfig[process.env.NODE_ENV] || dbconfig.development
-if (config.uri) {
-  console.log(`Connecting with uri "${config.uri}"`)
-  sequelize = new Sequelize(config.uri, config.options)
+var config = {}
+if (process.env.NODE_ENV === 'development') {
+  var dbconfig = require('../../dbconfig.json')
+  config = dbconfig.development
 } else {
-  console.log('Connecting with details', config)
-  sequelize = new Sequelize(config.database, config.username, config.password, config.options)
+  config = process.env
 }
 
+console.log('Connecting with details', config)
+const sequelize = new Sequelize(config.database, config.username, config.password, {
+  dialect: 'sqlite',
+  storage: config.dbpath
+})
+
+const db = {}
 fs
   .readdirSync(__dirname)
   .filter((file) => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
